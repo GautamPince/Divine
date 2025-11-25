@@ -1,0 +1,136 @@
+.profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    background-color: var(--color-surface);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
+.profile-avatar {
+    font-size: 5rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.profile-header h2 {
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+}
+
+.profile-role {
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-section {
+    background-color: var(--color-surface);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+}
+
+.section-header h3 {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+}
+
+.edit-btn,
+.save-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--color-primary);
+}
+
+.save-btn {
+    color: green;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.info-item label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.info-item p {
+    font-size: 1rem;
+    color: var(--color-text);
+    padding: 0.5rem 0;
+}
+
+.info-item input,
+.info-item textarea {
+    padding: 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+.info-item textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.logout-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.logout-action-btn:hover {
+    background-color: var(--color-secondary);
+    color: white;
+}
