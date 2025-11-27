@@ -1,135 +1,164 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { FaUserCircle, FaEdit, FaSave, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaShoppingBag, FaSignOutAlt, FaBoxOpen, FaClock, FaCheckCircle } from 'react-icons/fa';
+import axios from '../api/axios';
+import { motion } from 'framer-motion';
 import './Profile.css';
 
 const Profile = () => {
     const { user, logout } = useAuth();
-    const navigate = useNavigate();
-    const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        address: ''
-    });
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState('all'); // all, pending, delivered
 
     useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+                const { data } = await axios.get('/api/orders/myorders', config);
+                setOrders(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+                setLoading(false);
+            }
+        };
+
         if (user) {
-            setFormData({
-                name: user.name || '',
-                email: user.email || '',
-                phone: user.phone || '',
-                address: user.address || ''
-            });
-        } else {
-            navigate('/login');
+            fetchOrders();
         }
-    }, [user, navigate]);
+    }, [user]);
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const filteredOrders = orders.filter(order => {
+        if (activeTab === 'all') return true;
+        if (activeTab === 'pending') return order.status === 'pending' || order.status === 'processing';
+        if (activeTab === 'delivered') return order.status === 'delivered';
+        return true;
+    });
+
+    const getStatusColor = (status) => {
+        switch (status.toLowerCase()) {
+            case 'delivered': return 'status-success';
+            case 'pending': return 'status-warning';
+            case 'processing': return 'status-info';
+            case 'cancelled': return 'status-danger';
+            default: return 'status-default';
+        }
     };
 
-    const handleSave = () => {
-        // In a real app, this would call an API to update the user
-        console.log('Saving user data:', formData);
-        setIsEditing(false);
-        // Update local user state if needed (mock update)
-        // login({ ...user, ...formData }); 
-        alert('Profile updated successfully!');
+    const getStatusIcon = (status) => {
+        switch (status.toLowerCase()) {
+            case 'delivered': return <FaCheckCircle />;
+            case 'pending': return <FaClock />;
+            default: return <FaBoxOpen />;
+        }
     };
 
-    const handleLogout = () => {
-        logout();
-        navigate('/');
-    };
-
-    if (!user) return null;
+    if (!user) return <div className="profile-page container">Please log in to view profile.</div>;
 
     return (
-        <div className="profile-container">
-            <div className="profile-header">
-                <div className="profile-avatar">
-                    <FaUserCircle />
-                </div>
-                <h2>{user.name}</h2>
-                <p className="profile-role">{user.role || 'Devotee'}</p>
-            </div>
-
-            <div className="profile-content">
-                <div className="profile-section">
-                    <div className="section-header">
-                        <h3>Personal Information</h3>
-                        {!isEditing ? (
-                            <button className="icon-btn edit-btn" onClick={() => setIsEditing(true)}>
-                                <FaEdit /> Edit
-                            </button>
-                        ) : (
-                            <button className="icon-btn save-btn" onClick={handleSave}>
-                                <FaSave /> Save
-                            </button>
-                        )}
-                    </div>
-
-                    <div className="info-grid">
-                        <div className="info-item">
-                            <label>Full Name</label>
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                />
-                            ) : (
-                                <p>{formData.name}</p>
-                            )}
+        <div className="profile-page container">
+            <motion.div
+                className="profile-layout"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                {/* Left Column: User Profile */}
+                <div className="profile-sidebar">
+                    <div className="profile-card glass user-card">
+                        <div className="profile-avatar">
+                            <FaUser />
                         </div>
+                        <h2 className="profile-name">{user.name}</h2>
+                        <p className="profile-email"><FaEnvelope /> {user.email}</p>
+                        <div className="profile-role-badge">{user.role}</div>
 
-                        <div className="info-item">
-                            <label>Email</label>
-                            <p>{formData.email}</p> {/* Email usually not editable directly */}
-                        </div>
-
-                        <div className="info-item">
-                            <label>Phone</label>
-                            {isEditing ? (
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    placeholder="Add phone number"
-                                />
-                            ) : (
-                                <p>{formData.phone || 'Not provided'}</p>
-                            )}
-                        </div>
-
-                        <div className="info-item full-width">
-                            <label>Address</label>
-                            {isEditing ? (
-                                <textarea
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleChange}
-                                    placeholder="Add delivery address"
-                                />
-                            ) : (
-                                <p>{formData.address || 'Not provided'}</p>
-                            )}
-                        </div>
+                        <button onClick={logout} className="logout-btn">
+                            <FaSignOutAlt /> Logout
+                        </button>
                     </div>
                 </div>
 
-                <div className="profile-actions">
-                    <button className="btn-secondary logout-action-btn" onClick={handleLogout}>
-                        <FaSignOutAlt /> Logout
-                    </button>
+                {/* Right Column: Order History */}
+                <div className="profile-main">
+                    <div className="orders-section glass">
+                        <div className="section-header">
+                            <h2><FaShoppingBag /> My Orders</h2>
+                            <div className="tabs">
+                                <button
+                                    className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('all')}
+                                >
+                                    All
+                                </button>
+                                <button
+                                    className={`tab-btn ${activeTab === 'pending' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('pending')}
+                                >
+                                    Pending
+                                </button>
+                                <button
+                                    className={`tab-btn ${activeTab === 'delivered' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('delivered')}
+                                >
+                                    Delivered
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="orders-list">
+                            {loading ? (
+                                <div className="loading-state">Loading orders...</div>
+                            ) : filteredOrders.length === 0 ? (
+                                <div className="empty-state">
+                                    <FaBoxOpen size={40} />
+                                    <p>No orders found in this category.</p>
+                                </div>
+                            ) : (
+                                filteredOrders.map((order, index) => (
+                                    <motion.div
+                                        key={order.id}
+                                        className="order-card"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                    >
+                                        <div className="order-header">
+                                            <div className="order-id-date">
+                                                <span className="order-id">#{order.id}</span>
+                                                <span className="order-date">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                            <div className={`order-status-badge ${getStatusColor(order.status)}`}>
+                                                {getStatusIcon(order.status)} {order.status}
+                                            </div>
+                                        </div>
+
+                                        <div className="order-items-preview">
+                                            {order.Products.map(product => (
+                                                <div key={product.id} className="order-item-row">
+                                                    <span className="item-name">{product.name}</span>
+                                                    <span className="item-qty">x{product.OrderItem.quantity}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="order-footer">
+                                            <span className="total-label">Total Amount:</span>
+                                            <span className="total-amount">₹{order.totalAmount}</span>
+                                        </div>
+                                    </motion.div>
+                                ))
+                            )}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

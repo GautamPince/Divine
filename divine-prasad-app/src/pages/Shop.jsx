@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 import { FaFilter, FaSearch, FaStar } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import './Shop.css';

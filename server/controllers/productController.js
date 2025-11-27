@@ -24,7 +24,17 @@ exports.getProductById = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        const product = await Product.create(req.body);
+        const { name, description, price, category, temple, image, stock } = req.body;
+        const product = await Product.create({
+            name,
+            description,
+            price,
+            category,
+            temple,
+            image,
+            stock,
+            vendorId: req.user.role === 'vendor' ? req.user.id : null,
+        });
         res.status(201).json(product);
     } catch (error) {
         res.status(400).json({ message: 'Invalid product data', error: error.message });

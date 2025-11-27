@@ -39,6 +39,14 @@ const Product = sequelize.define('Product', {
         type: DataTypes.INTEGER,
         defaultValue: 100,
     },
+    vendorId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'Users',
+            key: 'id',
+        },
+    },
 }, {
     timestamps: true,
 });

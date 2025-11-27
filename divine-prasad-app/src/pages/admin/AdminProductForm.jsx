@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../api/axios';
 import { FaArrowLeft, FaSave } from 'react-icons/fa';
 import { products } from '../../data/products';
 import './AdminProductForm.css';

@@ -1,6 +1,6 @@
 .hero {
     height: 80vh;
-    background-image: url('/assets/hero.png');
+    background-image: url("/assets/hero.png");
     /* Generated Temple Image */
     background-size: cover;
     background-position: center;

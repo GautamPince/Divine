@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { FaCreditCard, FaMoneyBillWave, FaSpinner } from 'react-icons/fa';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -20,8 +21,15 @@ const Checkout = () => {
         phone: ''
     });
 
+    const [paymentMethod, setPaymentMethod] = useState('COD');
+    const [isProcessing, setIsProcessing] = useState(false);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handlePaymentChange = (method) => {
+        setPaymentMethod(method);
     };
 
     const handleSubmit = async (e) => {
@@ -33,6 +41,8 @@ const Checkout = () => {
             return;
         }
 
+        setIsProcessing(true);
+
         try {
             const token = localStorage.getItem('token');
             const config = {
@@ -40,6 +50,25 @@ const Checkout = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
+
+            let paymentDetails = {};
+
+            // Process Mock Payment if Online
+            if (paymentMethod === 'ONLINE') {
+                const paymentRes = await axios.post('/api/payment/process', {
+                    amount: total,
+                    paymentMethod: 'Credit Card' // Mocking card
+                }, config);
+
+                if (paymentRes.data.success) {
+                    paymentDetails = {
+                        transactionId: paymentRes.data.transactionId,
+                        status: 'paid'
+                    };
+                } else {
+                    throw new Error('Payment failed');
+                }
+            }
 
             const orderItems = cartItems.map(item => ({
                 id: item.id,
@@ -50,18 +79,20 @@ const Checkout = () => {
             const orderData = {
                 orderItems,
                 shippingAddress: formData,
-                paymentMethod: 'COD',
-                totalPrice: total
+                paymentMethod,
+                totalPrice: total,
+                ...paymentDetails
             };
 
             const { data } = await axios.post('/api/orders', orderData, config);
 
-            alert('Order placed successfully! May the divine blessings be with you.');
             clearCart();
-            navigate('/');
+            navigate('/order-success', { state: { orderId: data.id } });
         } catch (error) {
             console.error('Order error:', error);
             alert(error.response?.data?.message || 'Failed to place order');
+        } finally {
+            setIsProcessing(false);
         }
     };
 
@@ -146,8 +177,36 @@ const Checkout = () => {
                                 </div>
                             </div>
 
-                            <button type="submit" className="btn-primary place-order-btn">
-                                Place Order (Pay on Delivery)
+                            <div className="payment-selection">
+                                <h3>Payment Method</h3>
+                                <div
+                                    className={`payment-option ${paymentMethod === 'COD' ? 'selected' : ''}`}
+                                    onClick={() => handlePaymentChange('COD')}
+                                >
+                                    <FaMoneyBillWave className="payment-icon" />
+                                    <div>
+                                        <h4>Cash on Delivery</h4>
+                                        <p>Pay when you receive your order</p>
+                                    </div>
+                                </div>
+                                <div
+                                    className={`payment-option ${paymentMethod === 'ONLINE' ? 'selected' : ''}`}
+                                    onClick={() => handlePaymentChange('ONLINE')}
+                                >
+                                    <FaCreditCard className="payment-icon" />
+                                    <div>
+                                        <h4>Online Payment</h4>
+                                        <p>Credit/Debit Card, UPI, NetBanking</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" className="btn-primary place-order-btn" disabled={isProcessing}>
+                                {isProcessing ? (
+                                    <><FaSpinner className="spinner" /> Processing...</>
+                                ) : (
+                                    `Place Order ${paymentMethod === 'ONLINE' ? '(Pay Now)' : ''}`
+                                )}
                             </button>
                         </form>
                     </div>
@@ -174,7 +233,7 @@ const Checkout = () => {
                         </div>
 
                         <div className="payment-info">
-                            <p>Payment Method: <strong>Cash on Delivery</strong></p>
+                            <p>Payment Method: <strong>{paymentMethod === 'COD' ? 'Cash on Delivery' : 'Online Payment'}</strong></p>
                             <p className="secure-note">Payments are secure and encrypted.</p>
                         </div>
                     </div>

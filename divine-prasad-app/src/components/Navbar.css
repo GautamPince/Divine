@@ -1,119 +1,153 @@
 .navbar {
-    background-color: var(--color-white);
-    box-shadow: var(--shadow-sm);
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 1rem 0;
-    border-bottom: 3px solid var(--color-accent);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    transition: var(--transition);
 }
 
 .navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--color-primary);
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.logo-icon {
-    font-size: 1.8rem;
-    color: var(--color-secondary);
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-}
-
-.nav-links a {
-    font-weight: 600;
-    color: var(--color-text);
-    position: relative;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--color-primary);
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-accent);
-    transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after {
     width: 100%;
 }
 
-.nav-actions {
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
+}
+
+.navbar-desktop {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 30px;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--text-color);
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .icon-btn {
-    background: none;
     font-size: 1.2rem;
-    color: var(--color-text);
+    color: var(--text-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
     position: relative;
-    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .icon-btn:hover {
-    color: var(--color-primary);
+    color: var(--primary-color);
+    transform: scale(1.1);
 }
 
 .cart-badge {
     position: absolute;
-    top: 0;
-    right: 0;
-    background-color: var(--color-secondary);
+    top: -8px;
+    right: -8px;
+    background-color: var(--primary-color);
     color: white;
     font-size: 0.7rem;
     width: 18px;
     height: 18px;
     border-radius: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-.login-btn {
-    padding: 0.5rem 1.2rem;
-    font-size: 0.9rem;
+    justify-content: center;
+    font-weight: bold;
 }
 
 .user-menu {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 15px;
 }
 
-.logout-btn {
-    padding: 0.4rem 1rem;
-    font-size: 0.8rem;
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
+.login-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
 }
 
-.logout-btn:hover {
-    background-color: var(--color-primary);
-    color: white;
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+}
+
+.mobile-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.mobile-menu a,
+.mobile-menu button {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    background: none;
+    border: none;
+}
+
+.mobile-menu a:hover,
+.mobile-menu button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .navbar-desktop {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
 }

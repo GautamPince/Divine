@@ -17,13 +17,16 @@ import Shop from './pages/Shop';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import OrderSuccess from './pages/OrderSuccess';
 import AdminLayout from './layouts/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
+import AdminOrders from './pages/admin/AdminOrders';
 import VendorLayout from './layouts/VendorLayout';
 import VendorDashboard from './pages/vendor/VendorDashboard';
 import VendorProducts from './pages/vendor/VendorProducts';
+import VendorOrders from './pages/vendor/VendorOrders';
 
 // Placeholder Pages
 const Home = () => (
@@ -50,6 +53,7 @@ function App() {
                 <Route path="product/:id" element={<ProductDetails />} />
                 <Route path="cart" element={<Cart />} />
                 <Route path="checkout" element={<Checkout />} />
+                <Route path="order-success" element={<OrderSuccess />} />
                 <Route path="profile" element={<Profile />} />
               </Route>
               <Route path="/login" element={<Login />} />
@@ -61,6 +65,7 @@ function App() {
                 <Route path="products" element={<AdminProducts />} />
                 <Route path="products/new" element={<AdminProductForm />} />
                 <Route path="products/edit/:id" element={<AdminProductForm />} />
+                <Route path="orders" element={<AdminOrders />} />
               </Route>
 
               {/* Vendor Routes */}
