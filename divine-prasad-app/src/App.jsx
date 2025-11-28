@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Shop from './pages/Shop';
+import Temple from './pages/Temple';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -54,7 +55,9 @@ function App() {
                 <Route path="cart" element={<Cart />} />
                 <Route path="checkout" element={<Checkout />} />
                 <Route path="order-success" element={<OrderSuccess />} />
+                <Route path="order-success" element={<OrderSuccess />} />
                 <Route path="profile" element={<Profile />} />
+                <Route path="temples" element={<Temple />} />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />

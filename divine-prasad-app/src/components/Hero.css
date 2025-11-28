@@ -12,45 +12,63 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--color-white);
+    padding: 2rem;
 }
 
-/* Maroon + soft Saffron overlay */
+/* Divine Overlay — Maroon + Soft Saffron */
 .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(127, 29, 29, 0.206), rgba(255, 153, 51, 0.09));
+    background: linear-gradient(rgba(127, 29, 29, 0.65),
+            /* maroon */
+            rgba(255, 153, 51, 0.35)
+            /* saffron */
+        );
+    z-index: 0;
 }
 
-/* Golden Title */
+/* HERO CONTENT */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* HERO TITLE — BRIGHT GOLD, HIGH VISIBILITY */
 .hero-title {
     font-size: 4rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     color: #fbb01b;
+    /* Gold */
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 }
 
-/* Saffron-gold subtitle */
+/* HERO SUBTITLE — WHITE, GLOWING, CLEAR */
 .hero-subtitle {
     font-size: 1.2rem;
-    color: #ff9933;
     margin-bottom: 2.5rem;
-    font-weight: 300;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    /* pure white */
+    font-weight: 400;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
 }
 
-/* Buttons */
+/* BUTTONS WRAPPER */
 .hero-buttons {
     display: flex;
     justify-content: center;
     gap: 1.5rem;
     flex-direction: row;
-    align-self: start;
 }
 
-/* ⭐ Base button styling (missing earlier!) */
+/* ⭐ Base button styling */
 .hero-btn {
     padding: 0.5rem 0.5rem;
     font-size: 1rem;
@@ -62,23 +80,26 @@
     cursor: pointer;
 }
 
-/* PRIMARY — SAFFRON */
+/* PRIMARY BUTTON — SAFFRON */
 .btn-primary.hero-btn {
     background-color: #ff9933;
+    /* saffron */
     color: white;
     border: 1px solid whitesmoke;
 }
 
 .btn-primary.hero-btn:hover {
     background-color: #e68320ac;
-    cursor: pointer;
+    /* deeper saffron */
 }
 
 /* SECONDARY — GOLD BORDER + MAROON TEXT */
 .btn-secondary {
     background-color: white;
     border: 2px solid #fbb01b;
+    /* gold */
     color: #7f1d1d;
+    /* maroon */
 }
 
 .btn-secondary:hover {
@@ -87,7 +108,7 @@
     border-color: #7f1d1d;
 }
 
-/* Mobile adjustments */
+/* MOBILE — RESPONSIVE TITLE SIZE */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 2.5rem;
