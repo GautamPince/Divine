@@ -20,6 +20,16 @@ const Navbar = () => {
     setIsMenuOpen(false);
   };
 
+  // Toggle body class when menu opens to control other elements (like bottom nav)
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add('mobile-menu-open');
+    } else {
+      document.body.classList.remove('mobile-menu-open');
+    }
+    return () => document.body.classList.remove('mobile-menu-open');
+  }, [isMenuOpen]);
+
   return (
     <nav className="navbar glass">
       <div className="container navbar-container">
@@ -27,6 +37,7 @@ const Navbar = () => {
           <span className="logo-text">Divine Prasad</span>
         </Link>
 
+        {/* Desktop Navigation */}
         <div className="navbar-desktop">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/shop" className="nav-link">Shop</Link>
@@ -53,7 +64,12 @@ const Navbar = () => {
           </div>
         </div>
 
-        <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        {/* Mobile Menu Button - Explicitly outside desktop div */}
+        <button
+          className="hamburger-toggle"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle Menu"
+        >
           {isMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
@@ -68,10 +84,30 @@ const Navbar = () => {
           >
             <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
             <Link to="/shop" onClick={() => setIsMenuOpen(false)}>Shop</Link>
-            {user && user.role === 'admin' && <Link to="/admin" onClick={() => setIsMenuOpen(false)}>Admin</Link>}
-            {user && user.role === 'vendor' && <Link to="/vendor" onClick={() => setIsMenuOpen(false)}>Vendor</Link>}
-            <Link to="/cart" onClick={() => setIsMenuOpen(false)}>Cart ({getCartCount()})</Link>
-            <Link to="/profile" onClick={() => setIsMenuOpen(false)}>Profile</Link>
+
+            {user?.role === 'admin' && (
+              <Link to="/admin" onClick={() => setIsMenuOpen(false)}>Admin</Link>
+            )}
+
+            {user?.role === 'vendor' && (
+              <Link to="/vendor" onClick={() => setIsMenuOpen(false)}>Vendor</Link>
+            )}
+
+            <Link to="/cart" onClick={() => setIsMenuOpen(false)}>
+              Cart ({getCartCount()})
+            </Link>
+
+            {/* Only show profile when logged in */}
+            {user && (
+              <Link to="/profile" onClick={() => setIsMenuOpen(false)}>Profile</Link>
+            )}
+
+            {/* Theme Toggle */}
+            <button onClick={() => { toggleTheme(); }}>
+              Theme: {isDarkMode ? "Light" : "Dark"}
+            </button>
+
+            {/* Auth Buttons */}
             {user ? (
               <button onClick={handleLogout}>Logout</button>
             ) : (

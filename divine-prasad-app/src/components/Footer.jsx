@@ -40,7 +40,8 @@ const Footer = () => {
                 </div>
             </div>
             <div className="footer-bottom">
-                <p>&copy; 2024 Divine Prasad. All rights reserved.</p>
+                <p> <span className="heart">&copy;</span> 2024 Divine Prasad. All rights reserved.</p>
+                <p>Made with &nbsp; <span className="heart">&#9829;</span>&nbsp; by Prince Kumar Gautam</p>
             </div>
         </footer>
     );
