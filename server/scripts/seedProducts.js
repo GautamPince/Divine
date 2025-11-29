@@ -1,89 +1,86 @@
 const { sequelize, Product } = require('../models');
 
-const products = [
+const dummyProducts = [
     {
         name: "Tirupati Laddu",
-        temple: "Tirumala Tirupati Devasthanams",
-        description: "The world-famous Srivari Laddu, a sacred offering from the seven hills. Made with pure ghee, gram flour, sugar, cashews, cardamom, and raisins.",
-        price: 501,
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Tirupati_Laddu.jpg/800px-Tirupati_Laddu.jpg",
+        description: "The world-famous Srivari Laddu Prasadam from Tirumala Venkateswara Temple. Made with gram flour, cashew nuts, cardamom, ghee, sugar, and sugar candy.",
+        price: 50.00,
         category: "Sweets",
-        rating: 4.9,
-        tag: "Bestseller"
-    },
-    {
-        name: "Kashi Mahaprasad",
-        temple: "Kashi Vishwanath Temple",
-        description: "Sacred dry prasad from the holy city of Varanasi. Contains dry fruits, mishri, and sacred vibhuti.",
-        price: 351,
-        image: "https://tse3.mm.bing.net/th?id=OIP.M_s3qXk_g2Y-k_k_k_k_kQHaHa&pid=Api",
-        category: "Dry Prasad",
+        temple: "Tirumala Venkateswara Temple",
+        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Laddu.jpg/800px-Laddu.jpg",
         rating: 4.8,
-        tag: "Sacred"
+        stock: 500
     },
     {
-        name: "Vaishno Devi Prasad",
-        temple: "Mata Vaishno Devi Shrine",
-        description: "Blessed offerings from the holy shrine. Includes dry fruits, puffed rice, and a sacred coin.",
-        price: 451,
-        image: "https://tse1.mm.bing.net/th?id=OIP.M_s3qXk_g2Y-k_k_k_k_kQHaHa&pid=Api",
-        category: "Dry Prasad",
+        name: "Palani Panchamirtham",
+        description: "A divine jam-like prasadam made from five ingredients: banana, jaggery, cow ghee, honey, and cardamom. From the Palani Murugan Temple.",
+        price: 120.00,
+        category: "Jam",
+        temple: "Palani Murugan Temple",
+        image: "https://www.templepurohit.com/wp-content/uploads/2016/04/Palani-Panchamirtham.jpg",
         rating: 4.9,
-        tag: "Popular"
+        stock: 200
     },
     {
-        name: "Puri Mahaprasad",
-        temple: "Jagannath Puri Temple",
-        description: "The famous Khaja and dry sweets from the Lord's kitchen (Ananda Bazar).",
-        price: 251,
-        image: "https://tse2.mm.bing.net/th?id=OIP.M_s3qXk_g2Y-k_k_k_k_kQHaHa&pid=Api",
-        category: "Sweets",
-        rating: 4.7,
-        tag: "Traditional"
-    },
-    {
-        name: "Sabarimala Aravana",
-        temple: "Sabarimala Temple",
-        description: "Sacred Payasam made with rice, jaggery, and ghee. A divine offering for Lord Ayyappa.",
-        price: 301,
-        image: "https://tse4.mm.bing.net/th?id=OIP.M_s3qXk_g2Y-k_k_k_k_kQHaHa&pid=Api",
+        name: "Sabarimala Aravana Payasam",
+        description: "A rich and dark kheer made of rice, jaggery, and ghee. The main prasadam of Lord Ayyappa at Sabarimala.",
+        price: 150.00,
         category: "Payasam",
-        rating: 4.8,
-        tag: "Seasonal"
+        temple: "Sabarimala Temple",
+        image: "https://i.ytimg.com/vi/q1e2f3g4h5i/maxresdefault.jpg",
+        rating: 4.7,
+        stock: 300
     },
     {
-        name: "Dwarka Prasad",
-        temple: "Dwarkadhish Temple",
-        description: "Traditional dry sweets and magaj laddu from the kingdom of Lord Krishna.",
-        price: 401,
-        image: "https://tse1.mm.bing.net/th?id=OIP.M_s3qXk_g2Y-k_k_k_k_kQHaHa&pid=Api",
+        name: "Mahaprasad (Jagannath Puri)",
+        description: "The 56 Bhog offered to Lord Jagannath. Includes rice, dal, vegetables, and sweets cooked in earthen pots.",
+        price: 250.00,
+        category: "Meal",
+        temple: "Jagannath Temple, Puri",
+        image: "https://odishabytes.com/wp-content/uploads/2019/07/Mahaprasad.jpg",
+        rating: 5.0,
+        stock: 100
+    },
+    {
+        name: "Vaishno Devi Peda",
+        description: "Delicious dried fruit and nut based prasad from the holy shrine of Mata Vaishno Devi.",
+        price: 80.00,
         category: "Sweets",
+        temple: "Vaishno Devi Temple",
+        image: "https://5.imimg.com/data5/SELLER/Default/2022/9/MZ/UY/OD/4946723/vaishno-devi-prasad-500x500.jpg",
         rating: 4.6,
-        tag: "New"
+        stock: 400
+    },
+    {
+        name: "Ambalapuzha Palpayasam",
+        description: "A legendary sweet milk porridge offered at the Ambalapuzha Sri Krishna Temple in Kerala.",
+        price: 100.00,
+        category: "Payasam",
+        temple: "Ambalapuzha Sri Krishna Temple",
+        image: "https://www.keralatourism.org/images/cuisine/large/ambalapuzha_palpayasam_20131031103212_1.jpg",
+        rating: 4.9,
+        stock: 150
     }
 ];
 
-const seedProducts = async () => {
+const seedDatabase = async () => {
     try {
         await sequelize.authenticate();
-        console.log('Database connected.');
+        console.log('Connection has been established successfully.');
 
-        // Sync models (ensure table exists)
-        await sequelize.sync();
+        console.log('Seeding products...');
 
-        // Clear existing products
+        // Clear existing products to ensure clean slate
         await Product.destroy({ where: {} });
-        console.log('Existing products cleared.');
 
-        // Add new products
-        await Product.bulkCreate(products);
-        console.log('Products seeded successfully.');
+        await Product.bulkCreate(dummyProducts);
 
-        process.exit();
+        console.log('Products seeded successfully!');
+        process.exit(0);
     } catch (error) {
-        console.error('Error seeding products:', error);
+        console.error('Unable to connect to the database or seed data:', error);
         process.exit(1);
     }
 };
 
-seedProducts();
+seedDatabase();

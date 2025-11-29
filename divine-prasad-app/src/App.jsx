@@ -15,6 +15,8 @@ import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Shop from './pages/Shop';
 import Temple from './pages/Temple';
+import AboutUs from './pages/AboutUs';
+// import ContactUs from './pages/ContactUs';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -58,6 +60,8 @@ function App() {
                 <Route path="order-success" element={<OrderSuccess />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="temples" element={<Temple />} />
+                <Route path="about" element={<AboutUs />} />
+                {/* <Route path="contact" element={<ContactUs />} /> */}
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />

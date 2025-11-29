@@ -22,11 +22,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(127, 29, 29, 0.65),
-            /* maroon */
-            rgba(255, 153, 51, 0.35)
-            /* saffron */
-        );
+    background: linear-gradient(rgba(127, 29, 29, 0.65), /* maroon */ rgba(255, 153, 51, 0.35) /* saffron */);
     z-index: 0;
 }
 
@@ -84,7 +80,7 @@
 .btn-primary.hero-btn {
     background-color: #ff9933;
     /* saffron */
-    color: white;
+    color: #7f1d1d;
     border: 1px solid whitesmoke;
 }
 
