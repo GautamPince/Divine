@@ -57,7 +57,7 @@ const Shop = () => {
                 <aside className={`shop-sidebar ${showFilters ? 'show' : ''}`}>
                     <div className="sidebar-section">
                         <h3>Search</h3>
-                        <div className="search-box">
+                        <div className="search_box">
                             <FaSearch className="search-icon" />
                             <input
                                 type="text"

@@ -14,7 +14,7 @@
     text-align: center;
     padding: 3rem 1rem;
     margin-bottom: 2rem;
-    background-image: linear-gradient(rgba(127, 29, 29, 0.9), rgba(127, 29, 29, 0.8)), url("/assets/hero.png");
+    background-image: linear-gradient(rgba(127, 29, 29, 0.79), rgba(127, 29, 29, 0.625)), url("/assets/hero.png");
     background-size: cover;
     background-position: center;
 }
@@ -60,13 +60,18 @@
 /* ============================
    SEARCH BOX
 ============================= */
-.search-box {
+.search_box {
     position: relative;
     width: 100%;
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
 }
 
-.search-box .search-icon {
+.search_box .search-icon {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -76,11 +81,11 @@
     pointer-events: none;
 }
 
-.search-box input {
+.search_box input {
     width: 100%;
     max-width: 100%; /* prevent overflow */
     box-sizing: border-box; /* ensures padding stays inside */
-    padding: 10px 12px 10px 40px;
+    padding: 10px 12px 10px 30px;
     border: 2px solid #7f1d1d;
     border-radius: 8px;
     background: #ffffff;
@@ -90,12 +95,12 @@
     transition: 0.2s ease-in-out;
 }
 
-.search-box input:focus {
+.search_box input:focus {
     border-color: #a12b2b;
     box-shadow: 0 0 6px rgba(127, 29, 29, 0.4);
 }
 
-.search-box input:hover {
+.search_box input:hover {
     border-color: #9e2a2a;
 }
 

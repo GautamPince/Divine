@@ -37,7 +37,7 @@ export const products = [
         name: "Puri Khaja",
         temple: "Jagannath Temple, Puri",
         price: 300,
-        image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Khaja_of_Puri.jpg/800px-Khaja_of_Puri.jpg",
+        image: "/assets/vaishno.png",
         category: "Sweets",
         rating: 4.6,
         description: "Traditional layered sweet delicacy offered to Lord Jagannath.",
